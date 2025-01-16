@@ -1,21 +1,23 @@
 import { UserI } from "./interface";
-import { db } from "..";
+import { db, logger } from "..";
 import { User } from "@telegraf/types";
 
-export function getUserById(userId: number) {
+export function getUserById(userId: number): BotUser | undefined {
     const user: any = db.prepare(`SELECT * FROM users WHERE userId = ?`).get(userId);
-    return new BotUser(user.userId, user.tId, user.username, Boolean(user.isBanned));
+    logger.debug(`executed SELECT by table id. got ${user === undefined ? undefined : user.username}`);
+    return user === undefined ? undefined : new BotUser(user.userId, user.tId, user.username, Boolean(user.isBanned));
 }
 
-export function getUserByTId(tId: number) {
+export function getUserByTId(tId: number): BotUser | undefined {
     const user: any = db.prepare(`SELECT * FROM users WHERE tId = ?`).get(tId);
-    console.log(user);
-    return new BotUser(user.userId, user.tId, user.username, Boolean(user.isBanned));
+    logger.debug(`executed SELECT by telegram id. got ${user === undefined ? undefined : user.username}`);
+    return user === undefined ? undefined : new BotUser(user.userId, user.tId, user.username, Boolean(user.isBanned));
 }
 
-export function addUser(tUser: User) {
+export function addUser(tUser: User): BotUser | Error {
     if(typeof(tUser.username) === undefined) return Error("username is undefined");
     const user = db.prepare(`INSERT INTO users (tId, username, isBanned) VALUES (?, ?, ?)`).run(tUser.id, tUser.username, 'false');
+    logger.debug(`executed INSERT to users: ${tUser.id} || ${tUser.username}`);
     return new BotUser(Number(user.lastInsertRowid), tUser.id, tUser.username!, false);
 }
 

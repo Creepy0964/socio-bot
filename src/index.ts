@@ -4,9 +4,11 @@ import { typeregCallback } from "./callback/typereg";
 import { start } from "./commands/start";
 import { ban, unban } from "./commands/ban";
 import { MyContext } from "./model/interface";
+import { Logger } from "./utils/logger";
 
-export const db = new Database('../db/database.db');
+export const db = new Database('./db/database.db');
 export const bot = new Telegraf<MyContext>(process.env.TOKEN!);
+export const logger = new Logger(3);
 
 bot.use(start, ban, unban, typeregCallback);
 
@@ -18,7 +20,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS "users" (
 	PRIMARY KEY("userId" AUTOINCREMENT)
 )`).run();
 
-bot.launch(() => { console.log('Bot started') });
+bot.launch(() => { logger.info('Bot started') });
 
-process.once('SIGINT', () => bot.stop());
-process.once('SIGTERM', () => bot.stop());
+process.once('SIGINT', () => { logger.info('Bot stopped'); bot.stop() });
+process.once('SIGTERM', () => { logger.info('Bot stopped'); bot.stop() });
