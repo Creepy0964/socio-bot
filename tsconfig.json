@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "outDir": "./dist",       // Компилированный код будет в папке dist
+      "rootDir": "./src",       // Корневая директория исходников
+      "strict": true,           // Включить строгую типизацию
+      "esModuleInterop": true,  // Поддержка импорта модулей
+      "skipLibCheck": true,     // Пропуск проверки типизации библиотек
+      "resolveJsonModule": true // Поддержка импорта JSON
+    },
+    "include": ["src/**/*"],    // Включить все файлы из src
+    "exclude": ["node_modules", "dist"] // Исключить ненужные файлы
+  }

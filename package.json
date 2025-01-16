@@ -1,0 +1,20 @@
+{
+  "name": "socio-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node --env-file=./src/config/.env-test src/index.ts",
+    "build": "tsc",
+    "stage": "node --env-file=./src/config/.env-test dist/index.js",
+    "prod": "node --env-file=./src/config/.env-prod dist/index.js"
+  },
+  "author": "creepy0964",
+  "license": "WTFPL",
+  "description": "",
+  "dependencies": {
+    "@telegraf/types": "^7.1.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "better-sqlite3": "^11.8.0",
+    "telegraf": "^4.16.3"
+  }
+}
