@@ -1,12 +1,11 @@
 import { Scenes, session } from "telegraf";
 import { Composer } from "telegraf";
 import { typeregWizard } from "../wizard/typereg";
-import * as db from "../model/database";
-import { Stage } from "telegraf/scenes";
+import { MyContext } from "../model/interface";
 
-const composer = new Composer<Scenes.WizardContext>();
+const composer = new Composer<MyContext>();
 
-export const stage = new Scenes.Stage<Scenes.WizardContext>([typeregWizard]);
+export const stage = new Scenes.Stage<MyContext>([typeregWizard]);
 
 composer.use(session());
 composer.use(stage.middleware());
